@@ -57,9 +57,9 @@ while len(firstList) != maxLen:
         firstList = firstList + firstList
 
 #decimal HSV values
-H = [x/25.0 for x in firstList]
+H = [x/25.0 for x in lastList]
 S = [x/25.0 for x in middleList]
-V = [x/25.0 for x in lastList]
+V = [x/25.0 for x in firstList]
 
 
 #convert to RGB
@@ -89,6 +89,6 @@ for y in range(height):
         else:
             row = row + (int(full[y][0]*255),int(full[y][1]*255),int(full[y][2]*255))
     img.append(row)
-with open(f"{firstString}-{middleString}-{lastString}-VSH.png", "wb") as outFile:
+with open(f"{firstString}-{middleString}-{lastString}.png", "wb") as outFile:
     w = png.Writer(width, height, greyscale=False)
     w.write(outFile, img)
