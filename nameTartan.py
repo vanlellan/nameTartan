@@ -17,21 +17,27 @@
 #    You should have received a copy of the GNU General Public License
 #    along with nameTartan.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
+from optparse import OptionParser
 import png
 import colorsys
 
+parser = OptionParser()
 
-lastString = sys.argv[3].lower()
+parser.add_option("--VSH", action='store_true', dest="VSH")
+parser.add_option("--HSV", action='store_false', dest="VSH")
+parser.set_defaults(VSH=False)
+(options, args) = parser.parse_args()
+
+lastString = args[2].lower()
 lastList = [ord(x)-97 for x in lastString]
 print(f"Last Name: {lastString}", lastList)
 count = [ord(x)-96 for x in lastString]
 
-middleString = sys.argv[2].lower()
+middleString = args[1].lower()
 middleList = [ord(x)-97 for x in middleString]
 print(f"Middle Name: {middleString}", middleList)
 
-firstString = sys.argv[1].lower()
+firstString = args[0].lower()
 firstList = [ord(x)-97 for x in firstString]
 print(f"First Name: {firstString}", firstList)
 
@@ -57,10 +63,13 @@ while len(firstList) != maxLen:
         firstList = firstList + firstList
 
 #decimal HSV values
-H = [x/25.0 for x in firstList]
+if options.VSH:
+    H = [x/25.0 for x in lastList]
+    V = [x/25.0 for x in firstList]
+else:
+    H = [x/25.0 for x in firstList]
+    V = [x/25.0 for x in lastList]
 S = [x/25.0 for x in middleList]
-V = [x/25.0 for x in lastList]
-
 
 #convert to RGB
 rgb = [colorsys.hsv_to_rgb(a[0],a[1],a[2]) for a in zip(H,S,V)]
@@ -89,6 +98,10 @@ for y in range(height):
         else:
             row = row + (int(full[y][0]*255),int(full[y][1]*255),int(full[y][2]*255))
     img.append(row)
-with open(f"{firstString}-{middleString}-{lastString}-HSV.png", "wb") as outFile:
+if options.VSH:
+    outFileName = f"{firstString}-{middleString}-{lastString}-VSH.png"
+else:
+    outFileName = f"{firstString}-{middleString}-{lastString}.png"
+with open(outFileName, "wb") as outFile:
     w = png.Writer(width, height, greyscale=False)
     w.write(outFile, img)
