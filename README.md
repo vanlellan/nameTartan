@@ -11,4 +11,5 @@ usage: python nameTartanHSV.py \[first\] \[middle\] \[last\]
     - the last name specifies the hue (H)
     - the middle name specifies the saturation (S)
     - the first name specifies the value (V)
+- the size of each block of color is determined from the last name letters, x2 (a=2, b=4, etc)
 - the two shorter names are repeated to match the length of the longest name
