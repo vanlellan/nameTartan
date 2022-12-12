@@ -22,16 +22,16 @@ import png
 import colorsys
 
 
-lastString = sys.argv[3]
+lastString = sys.argv[3].lower()
 lastList = [ord(x)-97 for x in lastString]
 print(f"Last Name: {lastString}", lastList)
 count = [ord(x)-96 for x in lastString]
 
-middleString = sys.argv[2]
+middleString = sys.argv[2].lower()
 middleList = [ord(x)-97 for x in middleString]
 print(f"Middle Name: {middleString}", middleList)
 
-firstString = sys.argv[1]
+firstString = sys.argv[1].lower()
 firstList = [ord(x)-97 for x in firstString]
 print(f"First Name: {firstString}", firstList)
 

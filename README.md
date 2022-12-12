@@ -5,7 +5,8 @@ This command line script generates a PNG representation of a tartan pattern base
 usage: python nameTartanHSV.py \[first\] \[middle\] \[last\]
 
 ### Notes:
-- use only lower-case letters in the names
+- generated pattern is not case sensitive
+- no special characters!
 - use exactly three names
 - the colors are interpreted using the HSV color representation
     - the last name specifies the hue (H)
