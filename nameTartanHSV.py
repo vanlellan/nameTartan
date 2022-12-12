@@ -89,6 +89,6 @@ for y in range(height):
         else:
             row = row + (int(full[y][0]*255),int(full[y][1]*255),int(full[y][2]*255))
     img.append(row)
-with open(f"{firstString}-{middleString}-{lastString}-VSH.png", "wb") as outFile:
+with open(f"{firstString}-{middleString}-{lastString}-HSV.png", "wb") as outFile:
     w = png.Writer(width, height, greyscale=False)
     w.write(outFile, img)
