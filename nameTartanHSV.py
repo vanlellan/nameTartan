@@ -49,7 +49,6 @@ rgb = [colorsys.hsv_to_rgb(a[0],a[1],a[2]) for a in zip(H,S,V)]
 expanded = []
 for j,c in enumerate(count):
     for i in [(x+1) for x in range(2*c)]:
-        print(f"i={i}")
         expanded.append(rgb[j])
 
 rev = list(expanded)
