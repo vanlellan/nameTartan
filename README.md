@@ -14,3 +14,9 @@ usage: python nameTartanHSV.py \[first\] \[middle\] \[last\]
     - the first name specifies the value (V)
 - the size of each block of color is determined from the last name letters, x2 (a=2, b=4, etc)
 - the two shorter names are repeated to match the length of the longest name
+
+## To Do
+[ ] graphical user interface
+    [ ] three text inputs, and an image display above
+    [ ] toggle radio buttons for assigning H, S, V, and count to first, middle, and last names in any combination
+    [ ] button to write out image to file
