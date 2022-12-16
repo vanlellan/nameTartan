@@ -21,87 +21,96 @@ from optparse import OptionParser
 import png
 import colorsys
 
-parser = OptionParser()
+def genNameTartan(aArgs, VSH=False):
 
-parser.add_option("--VSH", action='store_true', dest="VSH")
-parser.add_option("--HSV", action='store_false', dest="VSH")
-parser.set_defaults(VSH=False)
-(options, args) = parser.parse_args()
+    lastString = aArgs[2].lower()
+    lastList = [ord(x)-97 for x in lastString]
+    print(f"Last Name: {lastString}", lastList)
+    count = [ord(x)-96 for x in lastString]
+    
+    middleString = aArgs[1].lower()
+    middleList = [ord(x)-97 for x in middleString]
+    print(f"Middle Name: {middleString}", middleList)
+    
+    firstString = aArgs[0].lower()
+    firstList = [ord(x)-97 for x in firstString]
+    print(f"First Name: {firstString}", firstList)
 
-lastString = args[2].lower()
-lastList = [ord(x)-97 for x in lastString]
-print(f"Last Name: {lastString}", lastList)
-count = [ord(x)-96 for x in lastString]
+    fml = [firstString, middleString, lastString]
 
-middleString = args[1].lower()
-middleList = [ord(x)-97 for x in middleString]
-print(f"Middle Name: {middleString}", middleList)
+    maxLen = max(len(lastString), len(middleString), len(firstString))
+    
+    #repeat shorter names to match length of longest
+    while len(lastList) != maxLen:
+        if len(lastList) > maxLen:
+            lastList = lastList[:-1]
+        elif len(lastList) < maxLen:
+            lastList = lastList + lastList
+    
+    while len(middleList) != maxLen:
+        if len(middleList) > maxLen:
+            middleList = middleList[:-1]
+        elif len(middleList) < maxLen:
+            middleList = middleList + middleList
+    
+    while len(firstList) != maxLen:
+        if len(firstList) > maxLen:
+            firstList = firstList[:-1]
+        elif len(firstList) < maxLen:
+            firstList = firstList + firstList
+    
+    #decimal HSV values
+    if VSH:
+        H = [x/25.0 for x in lastList]
+        V = [x/25.0 for x in firstList]
+    else:
+        H = [x/25.0 for x in firstList]
+        V = [x/25.0 for x in lastList]
+    S = [x/25.0 for x in middleList]
+    
+    #convert to RGB
+    rgb = [colorsys.hsv_to_rgb(a[0],a[1],a[2]) for a in zip(H,S,V)]
+    
+    #expand colors into blocks to define the sett
+    expanded = []
+    for j,c in enumerate(count):
+        for i in [(x+1) for x in range(2*c)]:
+            expanded.append(rgb[j])
+    
+    #reverse and repeat the sett to generate the 1D tartan
+    rev = list(expanded)
+    rev.reverse()
+    full = expanded+rev+expanded+rev
+    
+    #generate tartan PNG
+    width = len(full)
+    height = width
+    img = []
+    for y in range(height):
+        row = ()
+        for x in range(width):
+            #draw in 2 2 twill pattern with symmetric weft and weave, to make a good representation of the tartan
+            if (x+y)%4 in (0,1):
+                row = row + (int(full[x][0]*255),int(full[x][1]*255),int(full[x][2]*255))
+            else:
+                row = row + (int(full[y][0]*255),int(full[y][1]*255),int(full[y][2]*255))
+        img.append(row)
+    return fml, img
 
-firstString = args[0].lower()
-firstList = [ord(x)-97 for x in firstString]
-print(f"First Name: {firstString}", firstList)
+if __name__ == "__main__":
 
-maxLen = max(len(lastString), len(middleString), len(firstString))
+    parser = OptionParser()
+    parser.add_option("--VSH", action='store_true', dest="VSH")
+    parser.add_option("--HSV", action='store_false', dest="VSH")
+    parser.set_defaults(VSH=False)
+    (options, args) = parser.parse_args()
 
-#repeat shorter names to match length of longest
-while len(lastList) != maxLen:
-    if len(lastList) > maxLen:
-        lastList = lastList[:-1]
-    elif len(lastList) < maxLen:
-        lastList = lastList + lastList
+    fml, img = genNameTartan(args, options.VSH)
 
-while len(middleList) != maxLen:
-    if len(middleList) > maxLen:
-        middleList = middleList[:-1]
-    elif len(middleList) < maxLen:
-        middleList = middleList + middleList
-
-while len(firstList) != maxLen:
-    if len(firstList) > maxLen:
-        firstList = firstList[:-1]
-    elif len(firstList) < maxLen:
-        firstList = firstList + firstList
-
-#decimal HSV values
-if options.VSH:
-    H = [x/25.0 for x in lastList]
-    V = [x/25.0 for x in firstList]
-else:
-    H = [x/25.0 for x in firstList]
-    V = [x/25.0 for x in lastList]
-S = [x/25.0 for x in middleList]
-
-#convert to RGB
-rgb = [colorsys.hsv_to_rgb(a[0],a[1],a[2]) for a in zip(H,S,V)]
-
-#expand colors into blocks to define the sett
-expanded = []
-for j,c in enumerate(count):
-    for i in [(x+1) for x in range(2*c)]:
-        expanded.append(rgb[j])
-
-#reverse and repeat the sett to generate the 1D tartan
-rev = list(expanded)
-rev.reverse()
-full = expanded+rev+expanded+rev
-
-#generate tartan PNG
-width = len(full)
-height = width
-img = []
-for y in range(height):
-    row = ()
-    for x in range(width):
-        #draw in 2 2 twill pattern with symmetric weft and weave, to make a good representation of the tartan
-        if (x+y)%4 in (0,1):
-            row = row + (int(full[x][0]*255),int(full[x][1]*255),int(full[x][2]*255))
-        else:
-            row = row + (int(full[y][0]*255),int(full[y][1]*255),int(full[y][2]*255))
-    img.append(row)
-if options.VSH:
-    outFileName = f"{firstString}-{middleString}-{lastString}-VSH.png"
-else:
-    outFileName = f"{firstString}-{middleString}-{lastString}.png"
-with open(outFileName, "wb") as outFile:
-    w = png.Writer(width, height, greyscale=False)
-    w.write(outFile, img)
+    if options.VSH:
+        outFileName = f"{fml[0]}-{fml[1]}-{fml[2]}-VSH.png"
+    else:
+        outFileName = f"{fml[0]}-{fml[1]}-{fml[2]}.png"
+    with open(outFileName, "wb") as outFile:
+        w = png.Writer(len(img), len(img), greyscale=False)
+        w.write(outFile, img)
