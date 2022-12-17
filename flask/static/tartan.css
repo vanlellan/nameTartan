@@ -1,9 +1,4 @@
 
-video{
-	width: 25vw;
-	height: auto;
-}
-
 img{
 	border: 1px solid #ddd; /* gray border */
 	border-radius: 4px; /* rounded border */
@@ -15,6 +10,16 @@ img{
 /* add a hover effect (blue shadow) */
 img:hover {
 	box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+footer{
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: white;
+	color: black;
+	text-align: center;
 }
 
 .flex-parent {
