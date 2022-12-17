@@ -19,11 +19,15 @@ def home():
 
 @app.route('/<name>')
 def tartan(name,page=None):
-    fml, img = genNameTartan(name.split('-'), False)
-    outFileName = f"{fml[0]}-{fml[1]}-{fml[2]}.png"
-    with open('./static/'+outFileName, "wb") as outFile:
-        w = png.Writer(len(img), len(img), greyscale=False)
-        w.write(outFile, img)
+    if os.path.isfile('./static/'+name+'.png'):
+        fml = [x.lower() for x in name.split('-')]
+        outFileName = f"{fml[0]}-{fml[1]}-{fml[2]}.png"
+    else:
+        fml, img = genNameTartan(name.split('-'), False)
+        outFileName = f"{fml[0]}-{fml[1]}-{fml[2]}.png"
+        with open('./static/'+outFileName, "wb") as outFile:
+            w = png.Writer(len(img), len(img), greyscale=False)
+            w.write(outFile, img)
     return render_template("tartan.html", genTartan = '/static/'+outFileName)
 
 @app.route('/<name>', methods=['POST'])
