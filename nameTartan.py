@@ -20,21 +20,32 @@
 from optparse import OptionParser
 import png
 import colorsys
+import re
 
 def genNameTartan(aArgs, VSH=False):
 
-    lastString = aArgs[2].lower()
+    if len(aArgs) != 3:
+        lastString = "invalid"
+        middleString = "input"
+        firstString = "name"
+    else:
+        lastString = aArgs[2].lower()
+        middleString = aArgs[1].lower()
+        firstString = aArgs[0].lower()
+
     lastList = [ord(x)-97 for x in lastString]
     print(f"Last Name: {lastString}", lastList)
     count = [ord(x)-96 for x in lastString]
     
-    middleString = aArgs[1].lower()
     middleList = [ord(x)-97 for x in middleString]
     print(f"Middle Name: {middleString}", middleList)
     
-    firstString = aArgs[0].lower()
     firstList = [ord(x)-97 for x in firstString]
     print(f"First Name: {firstString}", firstList)
+
+    firstString = re.sub('[^a-z]+', '', firstString)
+    middleString = re.sub('[^a-z]+', '', middleString)
+    lastString = re.sub('[^a-z]+', '', lastString)
 
     fml = [firstString, middleString, lastString]
 

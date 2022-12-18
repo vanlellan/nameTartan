@@ -28,7 +28,7 @@ def tartan(name,page=None):
         with open('./static/'+outFileName, "wb") as outFile:
             w = png.Writer(len(img), len(img), greyscale=False)
             w.write(outFile, img)
-    return render_template("tartan.html", genTartan = '/static/'+outFileName)
+    return render_template("tartan.html", genTartan = '/static/'+outFileName, FML = fml)
 
 @app.route('/<name>', methods=['POST'])
 def tartan_post(name,page=None):
