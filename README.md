@@ -16,9 +16,9 @@ usage: python nameTartanHSV.py \[first\] \[middle\] \[last\]
 - the two shorter names are repeated to match the length of the longest name
 
 ## To Do
-[X] graphical user interface (webapp with flask!)
-    [ ] one text input with an image display above
-    [ ] toggle radio buttons for assigning H, S, V, and count to first, middle, and last names in any combination
-    [-] button to write out image to file
-[ ] split name format checking and tartan generation into two functions
-[ ] add extra flask stuff (gunicorn script, systemd config, wsgi.py, ...) to repo
+- [X] graphical user interface (webapp with flask!)
+    - [ ] one text input with an image display above
+    - [ ] toggle radio buttons for assigning H, S, V, and count to first, middle, and last names in any combination
+    - [-] button to write out image to file
+- [ ] split name format checking and tartan generation into two functions
+- [X] add extra flask stuff (gunicorn script, systemd config, wsgi.py, ...) to repo
