@@ -52,6 +52,7 @@ def genNameTartan(aArgs, VSH=False):
     maxLen = max(len(lastString), len(middleString), len(firstString))
     
     #repeat shorter names to match length of longest
+    #this actually doesn't matter, the last name limits the pattern anyway
     while len(lastList) != maxLen:
         if len(lastList) > maxLen:
             lastList = lastList[:-1]
